@@ -1,3 +1,4 @@
+from datetime import datetime
 from os import abort
 
 from flask import Flask, request, jsonify
@@ -20,7 +21,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200))
-    due_date = db.Column(db.String(50))
+    due_date = db.Column(db.String(50), datetime.date.today().__str__())
     status = db.Column(db.String(20), default="Pending")
 
 
@@ -33,8 +34,8 @@ with app.app_context():
 def create_task():
     data = request.json
     new_task = Task(
-        title=data['title'],
-        description=data.get('description', ''),
+        title=data.get('title'),  # Default title if missing
+        description=data.get('description', 'No description provided'),
         due_date=data.get('due_date', ''),
         status=data.get('status', 'Pending')
     )
