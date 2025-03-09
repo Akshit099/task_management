@@ -40,5 +40,9 @@ def create_task():
     db.session.commit()
     return jsonify({"message": "Task created successfully!"}), 201
 
-if __name__ == '__main__':
-    app.run()
+
+@app.route('/tasks', methods=['GET'])
+def get_tasks():
+    tasks = Task.query.all()
+    tasks_list = [{'id':t.id, 'title':t.title, 'description':t.description, 'due_date':t.due_date, 'status':t.status} for t in tasks]
+    return jsonify(tasks_list), 201

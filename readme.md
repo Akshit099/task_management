@@ -33,7 +33,6 @@ Ensure you have the following installed:
 ### 3. Install Required Packages
 Run the following command in your terminal:
 ```bash
-pip install -Ur requirement.txt
 pip install -Ur requirements.txt
 ```
 
