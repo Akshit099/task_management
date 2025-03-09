@@ -63,11 +63,20 @@ def get_task(task_id):
 
 # Update a task
 @app.route('/tasks/<int:task_id>', methods=['PUT'])
-def get_task(task_id):
+def update_task(task_id):
     task = Task.query.get(task_id)
     if not task:
         return jsonify({"error": "Task not found"}), 404
-    return jsonify({"id": task.id, "title": task.title, "description": task.description, "due_date": task.due_date, "status": task.status})
+
+    # fetching the request data
+    data = request.json
+    task.title = data.get('title', task.title)
+    task.description = data.get('description', task.description)
+    task.due_date = data.get('due_date', task.due_date)
+    task.status = data.get('status', task.status)
+
+    db.session.commit()
+    return jsonify({"message: ": f"Task with id: {task.id} has been updated!"}), 201
 
 
 if __name__ == '__main__':
